@@ -25,7 +25,7 @@ public class AreaCheckServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/res.jsp");
         } catch (IOException e) {
             e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Каким то образом случилась ошибка отправки результата");
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Редирект результата не удался");
         }
     }
 
