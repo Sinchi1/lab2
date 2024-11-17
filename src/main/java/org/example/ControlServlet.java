@@ -25,5 +25,9 @@ public class ControlServlet extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "По какой-то причине не удалось проверить попадание");
             }
         }
+        else {
+            req.getSession().setAttribute("errorMessage", "Сервер принимает только GET запросы");
+            resp.sendRedirect(req.getContextPath() + "/error.jsp");
+        }
     }
 }
