@@ -1,34 +1,47 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <html>
 <head>
     <link rel="stylesheet" href="index.css">
     <script defer src="index.js"></script>
 </head>
-<body>
-<%
-    ArrayList<String> values = (ArrayList<String>) session.getAttribute("values");
-    if (values == null){
-        values = new ArrayList<>();
+<body onload="
+    <%
+    ArrayList<String> tableValues = (ArrayList<String>) session.getAttribute("values");
+    if (tableValues == null){
+        tableValues = new ArrayList<>();
     }
 
-    String result = (String) session.getAttribute("result");
+    String result = (String) session.getAttribute("res");
     if (result != null ){
-        values.add(result);
-        values.add((String) session.getAttribute("x"));
-        values.add((String) session.getAttribute("y"));
-        values.add((String) session.getAttribute("r"));
+        tableValues.add(result);
+        tableValues.add((String) session.getAttribute("x"));
+        tableValues.add((String) session.getAttribute("y"));
+        tableValues.add((String) session.getAttribute("r"));
         session.setAttribute("res", null);
     }
 
-    session.setAttribute("serverAnswers", values);
+    session.setAttribute("tableValues", tableValues);
+		if(tableValues.size() > 0){
+            for(int i=0; i < tableValues.size(); i+=4){
+                    result = tableValues.get(i);
+                	String x = tableValues.get(i+1);
+		            String y = tableValues.get(i+2);
+		            String r = tableValues.get(i+3);
 %>
+        updateTable('<%= result %>', '<%= x %>', '<%= y %>', '<%= r %>')
+    <%          }
+        }
+%>
+        ">
 <header class="header">Трусковский Георгий 413818 Р3214</header>
 
 <div class="container">
     <div class="elements-item">
-
-        <form action="control" method="get" onsubmit="return dataTransfer()">
+<%--Needed second commit first attempt failed lol--%>
+        <form action="http://localhost:8080/lab2-1.0-SNAPSHOT/control" method="get" onsubmit="return dataTransfer()">
 
             <p>Выберите X:</p>
             <div id="coord-x" >
@@ -53,7 +66,7 @@
 
             <p>
                 R - величина R на графике (от 1 до 3)<br>
-                <select name="r" id="R">
+                <select name="r" id="r">
                     <option value="">Выберите значение</option>
                     <option value="1">1</option>
                     <option value="1.5">1.5</option>
@@ -117,14 +130,14 @@
                 <tbody>
                 <%
                     int counter = 1;
-                    for (int i = 0; i < values.size(); i += 4) {
+                    for (int i = 0; i < tableValues.size(); i += 4) {
                 %>
                 <tr>
                     <td><%= counter++ %></td>
-                    <td><%= values.get(i) %></td>
-                    <td><%= values.get(i + 1) %></td>
-                    <td><%= values.get(i + 2) %></td>
-                    <td><%= values.get(i + 3) %></td>
+                    <td><%= tableValues.get(i) %></td>
+                    <td><%= tableValues.get(i + 1) %></td>
+                    <td><%= tableValues.get(i + 2) %></td>
+                    <td><%= tableValues.get(i + 3) %></td>
                 </tr>
                 <% } %>
                 </tbody>
