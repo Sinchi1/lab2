@@ -1,0 +1,34 @@
+.container {
+    margin: 0 auto;
+    width: 100%;
+    height: auto; /* Позволяет высоте контейнера подстраиваться под содержимое */
+    font-style: italic;
+    display: flex;
+    flex-direction: row ; /* Элементы выстраиваются как столбы */
+    align-items: center; /* Центровка столбов */
+    gap: 20px; /* Расстояние между столбами */
+}
+
+.header {
+    font-family: "Comic Sans MS", serif;
+    font-size: 28px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: black;
+    background-image: linear-gradient(90deg, #ffffff, #ff00fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.elements-item {
+    width: 80%; /* Каждому столбу задаётся ширина (регулируется) */
+    padding: 15px;
+    border: 1px solid #ccc; /* Добавлено для наглядности */
+    font-size: 20px;
+    text-align: center; /* Текст выравнивается по центру */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+}
+
+.elements-item:not(:last-child) {
+    margin-right: 10px; /* Отступы между колонками */
+}
