@@ -1,5 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <html>
 <head>
     <link rel="stylesheet" href="index.css">
@@ -38,7 +40,7 @@
 
 <div class="container">
     <div class="elements-item">
-
+<%--Needed second commit first attempt failed lol--%>
         <form action="http://localhost:8080/lab2-1.0-SNAPSHOT/control" method="get" onsubmit="return dataTransfer()">
 
             <p>Выберите X:</p>
