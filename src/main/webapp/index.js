@@ -2,11 +2,10 @@ const XInput = document.getElementById('x')
 const yInput = document.getElementById('y')
 const RInput = document.getElementById('r')
 const xButtons = document.getElementsByClassName("x_button");
-const svg = document.getElementById('svg');
 const sircleBox = document.getElementById("cursorCircle")
 const graph = document.getElementById("graph");
 const checkboxX = document.querySelectorAll('input[name="x"]');
-
+const send = document.getElementById("confirm");
 
 checkboxX.forEach((checkbox) => {
     checkbox.addEventListener('click', function (){
@@ -129,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 checkbox.checked = parseFloat(checkbox.value) === parseFloat(roundedX);
             });
         }
+        send.click();
     });
 });
 
@@ -182,11 +182,11 @@ function findLable(node) {
     }
 }
 
-svg.addEventListener('click', ({clientX, clientY}) => {
-    let point = svg.createSVGPoint();
+graph.addEventListener('click', ({clientX, clientY}) => {
+    let point = graph.createSVGPoint();
     point.x = clientX;
     point.y = clientY;
-    point = point.matrixTransform(svg.getScreenCTM().inverse());
+    point = point.matrixTransform(graph.getScreenCTM().inverse());
     const rValue = parseFloat(RInput.value); // Получаем значение R
 
     if (!validate(RInput, /^(?:[1-5][.,]\d+|[1-4]([,.]0+)?)$/)) {
@@ -222,7 +222,7 @@ function addDot(x, y, r){
     dot.setAttribute('r', '2')
     dot.setAttribute('fill', '#fc00c6')
     dot.setAttribute("class", "tmpDot")
-    svg.appendChild(dot)
+    graph.appendChild(dot)
 }
 
-svg.addEventListener(type="")
+graph.addEventListener(type="")
