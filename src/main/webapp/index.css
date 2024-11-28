@@ -1,12 +1,12 @@
 .container {
     margin: 0 auto;
     width: 100%;
-    height: auto; /* Позволяет высоте контейнера подстраиваться под содержимое */
+    height: auto;
     font-style: italic;
     display: flex;
-    flex-direction: row ; /* Элементы выстраиваются как столбы */
-    align-items: center; /* Центровка столбов */
-    gap: 20px; /* Расстояние между столбами */
+    flex-direction: row ;
+    align-items: center;
+    gap: 20px;
 }
 
 .header {
@@ -21,14 +21,26 @@
 }
 
 .elements-item {
-    width: 80%; /* Каждому столбу задаётся ширина (регулируется) */
+    width: 100vh;
+    height: 50vh;
     padding: 15px;
-    border: 1px solid #ccc; /* Добавлено для наглядности */
+    border: 1px solid #ccc;
     font-size: 20px;
-    text-align: center; /* Текст выравнивается по центру */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .elements-item:not(:last-child) {
-    margin-right: 10px; /* Отступы между колонками */
+    margin-right: 10px;
 }
+
+.cursorBox {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: pink;
+    border-radius: 50%;
+    pointer-events: none;
+    display: block;
+}
+

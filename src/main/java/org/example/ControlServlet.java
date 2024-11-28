@@ -17,7 +17,9 @@ public class ControlServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         if(req.getMethod().equalsIgnoreCase("GET")){
-
+            if (req.getParameter("x") == null || req.getParameter("y") == null || req.getParameter("r") == null){
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            }
             req.getSession().setAttribute("x", req.getParameter("x"));
             req.getSession().setAttribute("y", req.getParameter("y"));
             req.getSession().setAttribute("r", req.getParameter("r"));
