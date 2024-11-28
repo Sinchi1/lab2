@@ -88,15 +88,15 @@
         <div id="center_graphic" class="column">
             <svg width="300" height="300" id="graph" class="">
                 <!-- Оси -->
-                <line x1="150" y1="0" x2="150" y2="300" stroke="black" stroke-width="2"/> <!-- Вертикальная ось -->
-                <line x1="0" y1="150" x2="300" y2="150" stroke="black" stroke-width="2"/> <!-- Горизонтальная ось -->
+                <line x1="150" y1="0" x2="150" y2="300" stroke="black" stroke-width="2"></line> <!-- Вертикальная ось -->
+                <line x1="0" y1="150" x2="300" y2="150" stroke="black" stroke-width="2"></line> <!-- Горизонтальная ось -->
 
                 <!-- Стрелки на осях -->
-                <line x1="150" y1="0" x2="145" y2="10" stroke="black" stroke-width="2"/> <!-- Верхняя стрелка -->
-                <line x1="150" y1="0" x2="155" y2="10" stroke="black" stroke-width="2"/>
+                <line x1="150" y1="0" x2="145" y2="10" stroke="black" stroke-width="2"></line> <!-- Верхняя стрелка -->
+                <line x1="150" y1="0" x2="155" y2="10" stroke="black" stroke-width="2"></line>
 
-                <line x1="300" y1="150" x2="290" y2="145" stroke="black" stroke-width="2"/> <!-- Правая стрелка -->
-                <line x1="300" y1="150" x2="290" y2="155" stroke="black" stroke-width="2"/>
+                <line x1="300" y1="150" x2="290" y2="145" stroke="black" stroke-width="2"></line> <!-- Правая стрелка -->
+                <line x1="300" y1="150" x2="290" y2="155" stroke="black" stroke-width="2"></line>
 
                 <!-- Подписи на осях -->
                 <text x="160" y="10" font-size="12" fill="black">Y</text>
@@ -114,13 +114,13 @@
                 <text x="35" y="165" font-size="10" fill="black">-R</text>
 
                 <!-- Сектор (четверть круга) -->
-                <path d="M 150 150 L 150 270 A 120 120 0 0 1 30 150 L 150 150 Z" fill="blue" opacity="0.8"/>
+                <path d="M 150 150 L 150 270 A 120 120 0 0 1 30 150 L 150 150 Z" fill="blue" opacity="0.8"></path>
 
                 <!-- Прямоугольник -->
-                <rect x="150" y="30" width="120" height="120" fill="blue" opacity="0.8"/>
+                <rect x="150" y="30" width="120" height="120" fill="blue" opacity="0.8"></rect>
 
                 <!-- Треугольник -->
-                <path d="M 150 150 L 150 90 L 90 150 Z" fill="blue" opacity="0.8"/>
+                <path d="M 150 150 L 150 90 L 90 150 Z" fill="blue" opacity="0.8"></path>
 
             </svg>
         <div class="cursorBox" id="cursorCircle"></div>
