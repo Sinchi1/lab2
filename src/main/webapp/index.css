@@ -41,6 +41,6 @@
     background-color: pink;
     border-radius: 50%;
     pointer-events: none;
-    display: block;
+    display: none;
 }
 
