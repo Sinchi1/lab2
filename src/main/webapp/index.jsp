@@ -45,7 +45,7 @@
                 <label><input type="checkbox" name="x" value="1.5">1.5</label>
                 <label><input type="checkbox" name="x" value="2">2</label>
             </div>
-            <p><label class="error" id="x_error"></label></p>
+            <div class="error" id="x_error"></div>
 
             <p>
                 y - координата точки по оси oy (от -5 до 3)<br>

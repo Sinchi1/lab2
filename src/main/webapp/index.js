@@ -51,8 +51,35 @@ graph.addEventListener("mousemove", (event) =>{
     sircleBox.style.top = `${y}px`
 });
 
+document.getElementById('form').addEventListener('submit', function (event) {
+    let isValid = true;
+
+    const xError = document.getElementById('x_error');
+    const yError = document.getElementById('y_error');
 
 
+    xError.textContent = '';
+    yError.textContent = '';
+
+    // Проверка x
+    const selectedX = Array.from(document.querySelectorAll('input[name="x"]:checked'));
+    if (selectedX.length === 0) {
+        xError.textContent = 'Выберите хотя бы одно значение X.';
+        isValid = false;
+    }
+
+    // Проверка y
+    const yInput = document.getElementById('y');
+    const yValue = parseFloat(yInput.value);
+    if (isNaN(yValue) || yValue < -5 || yValue > 3) {
+        yError.textContent = 'Y должен быть числом в пределах [-5, 3].';
+        isValid = false;
+    }
+
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxesContainer = document.getElementById("x");
     const yInput = document.getElementById("y");
@@ -133,11 +160,6 @@ graph.addEventListener('click', ({clientX, clientY}) => {
     point.y = clientY;
     point = point.matrixTransform(graph.getScreenCTM().inverse());
     const rValue = parseFloat(RInput.value); // Получаем значение R
-
-    if (!validate(RInput, /^(?:[1-5][.,]\d+|[1-4]([,.]0+)?)$/)) {
-        findLable(RInput).innerText = 'Введено неверное значение';
-        return;
-    }
 
     // Рассчёт X и Y относительно клика
     const normalizedX = ((point.x - 150) / 120) * rValue; // X с учётом R
