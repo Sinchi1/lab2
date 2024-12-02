@@ -76,7 +76,7 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <label for="R" class="error" id="R_error"></label>
+                <label for="R" class="error" id="r_error"></label>
             </p>
             <p>
                 <input type="submit" value="Подтвердить" id="confirm">

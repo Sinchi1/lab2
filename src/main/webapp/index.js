@@ -56,10 +56,12 @@ document.getElementById('form').addEventListener('submit', function (event) {
 
     const xError = document.getElementById('x_error');
     const yError = document.getElementById('y_error');
+    const rError = document.getElementById("r_error");
 
 
     xError.textContent = '';
     yError.textContent = '';
+    rError.textContent = '';
 
     // Проверка x
     const selectedX = Array.from(document.querySelectorAll('input[name="x"]:checked'));
@@ -72,8 +74,14 @@ document.getElementById('form').addEventListener('submit', function (event) {
     const yInput = document.getElementById('y');
     const yValue = parseFloat(yInput.value);
     if (isNaN(yValue) || yValue < -5 || yValue > 3) {
-        yError.textContent = 'Y должен быть числом в пределах [-5, 3].';
+        yError.textContent = 'Введите значение Y';
         isValid = false;
+    }
+
+    const rvalue = parseFloat(document.getElementById("r").value);
+    if (isNaN(rvalue)){
+        rError.textContent = 'Выберите значение R'
+        isValid = false
     }
 
     if (!isValid) {
@@ -94,10 +102,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
 
+        const rError = document.getElementById("r_error")
+
+        rError.textContent = "";
+
         const rValue = parseFloat(rSelect.value);
-        if (isNaN(rValue)) {
-            alert("Сначала выберите значение R!");
-            return;
+
+        if (!isNaN(rValue)) {
+            rError.textContent = "Укажите значение R"
+            event.preventDefault()
         }
 
         // (центр графика - 150,150, масштаб - 300x300)
@@ -139,20 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-function validate(node, regex) {
-    return regex.test(node.value)
-}
-
-
-
-function findLable(node) {
-    var nodeId = node.id;
-    labels = document.getElementsByTagName('label');
-    for (var i = 0; i < labels.length; i++) {
-        if (labels[i].htmlFor == nodeId)
-            return labels[i];
-    }
-}
 
 graph.addEventListener('click', ({clientX, clientY}) => {
     let point = graph.createSVGPoint();
