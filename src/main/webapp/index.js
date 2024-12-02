@@ -51,29 +51,35 @@ graph.addEventListener("mousemove", (event) =>{
     sircleBox.style.top = `${y}px`
 });
 
-function dataTransfer() {
+document.getElementById('form').addEventListener('submit', function (event) {
+    let isValid = true;
 
-    var fields = [yInput, RInput]
-    var regexes = [
-        /^(?:[-]?[0-2][.,]\d+|[34][.,]\d+|(?:-[1-3]|[0-5])([.,]0+)?)$/,       //  -3 <= y <= 5
-        /^(?:[1-3][.,]\d+|[1-4]([,.]0+)?)$/                                 //   1 <= R <= 4
-    ]
+    const xError = document.getElementById('x_error');
+    const yError = document.getElementById('y_error');
 
-    for (var i = 0; i < fields.length; i++) {
-        if (validate(fields[i], regexes[i]) === true) {
-            findLable(fields[i]).innerText = ''
-        } else {
-            findLable(fields[i]).innerText = 'Введено неверное значение'
-            flag = false
-        }
+
+    xError.textContent = '';
+    yError.textContent = '';
+
+    // Проверка x
+    const selectedX = Array.from(document.querySelectorAll('input[name="x"]:checked'));
+    if (selectedX.length === 0) {
+        xError.textContent = 'Выберите хотя бы одно значение X.';
+        isValid = false;
     }
 
-    if(flag === false){
-        event.preventDefault()
+    // Проверка y
+    const yInput = document.getElementById('y');
+    const yValue = parseFloat(yInput.value);
+    if (isNaN(yValue) || yValue < -5 || yValue > 3) {
+        yError.textContent = 'Y должен быть числом в пределах [-5, 3].';
+        isValid = false;
     }
-}
 
-
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxesContainer = document.getElementById("x");
     const yInput = document.getElementById("y");
@@ -85,39 +91,39 @@ document.addEventListener("DOMContentLoaded", () => {
     // При клике на график
     graph.addEventListener("click", event => {
         const rect = graph.getBoundingClientRect();
-        const clickX = event.clientX - rect.left; // Координата X внутри SVG
-        const clickY = event.clientY - rect.top;  // Координата Y внутри SVG
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
 
-        const rValue = parseFloat(rSelect.value); // Текущее значение R
+        const rValue = parseFloat(rSelect.value);
         if (isNaN(rValue)) {
             alert("Сначала выберите значение R!");
             return;
         }
 
-        // Нормализация координат (центр графика - 150,150, масштаб - 300x300)
+        // (центр графика - 150,150, масштаб - 300x300)
         const normalizedX = ((clickX - 150) / 120) * rValue;
         const normalizedY = ((150 - clickY) / 120) * rValue;
 
-        // Установить Y
+
         yInput.value = normalizedY.toFixed(2);
 
-        // Проверить, есть ли нормализованное значение X в списке
+
         const roundedX = normalizedX.toFixed(2); // Округленное значение X
         const xValueExists = xValues().includes(parseFloat(roundedX));
 
-        // Если X отсутствует, добавить временный чекбокс
+
         if (!xValueExists) {
-            // Удаляем старый временный чекбокс (если он есть)
+
             const tempCheckbox = document.getElementById("temp-x");
             if (tempCheckbox) tempCheckbox.remove();
 
-            // Создаем новый временный чекбокс
+
             const newCheckbox = document.createElement("input");
             newCheckbox.type = "checkbox";
             newCheckbox.id = "temp-x";
-            newCheckbox.name = "x"; // Должен соответствовать имени остальных чекбоксов
+            newCheckbox.name = "x";
             newCheckbox.value = roundedX;
-            newCheckbox.checked = true; // Отмечаем его
+            newCheckbox.checked = true;
 
             // Добавляем его в DOM (можно добавить скрытым)
             newCheckbox.style.display = "none";
@@ -128,44 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 checkbox.checked = parseFloat(checkbox.value) === parseFloat(roundedX);
             });
         }
+
         send.click();
     });
 });
-
-
-
-function dataTransfer() {
-    flag = !(XInput.value === "")
-    if (flag === false) {
-        document.getElementById('x_error').innerText = 'Выберите значение для x'
-    } else {
-        if(XInput.value <= 2 && XInput.value >= -2){
-            document.getElementById('x_error').innerText = ''
-        } else {
-            document.getElementById('x_error').innerText = 'Введено неверное значение'
-            flag = false
-        }
-    }
-
-    var fields = [yInput, RInput]
-    var regexes = [
-        /^(?:[-]?[0-2][.,]\d+|[-][34][.,]\d+|(?:-[1-5]|[0-3])([.,]0+)?)$/,       //  -5 <= y <= 3
-        /^(?:[1-4][.,]\d+|[1-5]([,.]0+)?)$/                                 //   1 <= R <= 5
-    ]
-
-    for (var i = 0; i < fields.length; i++) {
-        if (validate(fields[i], regexes[i]) === true) {
-            findLable(fields[i]).innerText = ''
-        } else {
-            findLable(fields[i]).innerText = 'Введено неверное значение'
-            flag = false
-        }
-    }
-
-    if(flag === false){
-        event.preventDefault()
-    }
-}
 
 function validate(node, regex) {
     return regex.test(node.value)
@@ -189,11 +161,6 @@ graph.addEventListener('click', ({clientX, clientY}) => {
     point = point.matrixTransform(graph.getScreenCTM().inverse());
     const rValue = parseFloat(RInput.value); // Получаем значение R
 
-    if (!validate(RInput, /^(?:[1-5][.,]\d+|[1-4]([,.]0+)?)$/)) {
-        findLable(RInput).innerText = 'Введено неверное значение';
-        return;
-    }
-
     // Рассчёт X и Y относительно клика
     const normalizedX = ((point.x - 150) / 120) * rValue; // X с учётом R
     const normalizedY = ((150 - point.y) / 120) * rValue; // Y с учётом R
@@ -202,8 +169,7 @@ graph.addEventListener('click', ({clientX, clientY}) => {
     XInput.value = normalizedX.toFixed(2);
     yInput.value = normalizedY.toFixed(2);
 
-    // Автоматически выполняем отправку данных
-    dataTransfer();
+
 });
 
 

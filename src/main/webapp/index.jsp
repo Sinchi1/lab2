@@ -30,7 +30,7 @@
 <div class="container">
     <!-- Форма ввода -->
     <div class="elements-item">
-        <form action="http://localhost:8080/lab2-1.0-SNAPSHOT/control" method="get" onsubmit="dataTransfer()">
+        <form action="http://localhost:8080/lab2-1.0-SNAPSHOT/control" method="get" id="form">
             <p>Выберите X:</p>
             <div id="x">
                 <label><input type="checkbox" name="x" value="-2">-2</label>
@@ -45,6 +45,7 @@
                 <label><input type="checkbox" name="x" value="1.5">1.5</label>
                 <label><input type="checkbox" name="x" value="2">2</label>
             </div>
+            <div class="error" id="x_error"></div>
 
             <p>
                 y - координата точки по оси oy (от -5 до 3)<br>
