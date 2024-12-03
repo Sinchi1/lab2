@@ -58,7 +58,6 @@ document.getElementById('form').addEventListener('submit', function (event) {
     const yError = document.getElementById('y_error');
     const rError = document.getElementById("r_error");
 
-
     xError.textContent = '';
     yError.textContent = '';
     rError.textContent = '';
@@ -86,7 +85,53 @@ document.getElementById('form').addEventListener('submit', function (event) {
 
     if (!isValid) {
         event.preventDefault();
+        return
     }
+
+    if (selectedX.length === 1){
+        const query = new URLSearchParams();
+        query.append("x", selectedX[0].value.toString())
+        query.append("y", yValue.toString())
+        query.append("r", rvalue.toString())
+
+        console.log("x:" + selectedX[0].value + "y:" + yValue + "r:" + rvalue )
+
+        fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query.toString()}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(":^(")
+                    event.preventDefault()
+                }
+            })
+
+    }
+    else {
+        const query = new URLSearchParams();
+        query.append("y", yValue.toString())
+        query.append("r", rvalue.toString())
+        for (let i = 0; i < selectedX.length; i++){
+            query.append("x", selectedX[i].toString())
+            fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query.toString()}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        console.log(":^(")
+                        query.delete("x")
+                        query.delete("y")
+                        query.delete("r")
+                    }
+                    else {
+                        query.delete("x")
+                        query.delete("y")
+                        query.delete("r")
+                    }
+                })
+        }
+    }
+
 });
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxesContainer = document.getElementById("x");
@@ -189,5 +234,3 @@ function addDot(x, y, r){
     dot.setAttribute("class", "tmpDot")
     graph.appendChild(dot)
 }
-
-graph.addEventListener(type="")

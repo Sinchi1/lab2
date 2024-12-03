@@ -30,7 +30,7 @@
 <div class="container">
     <!-- Форма ввода -->
     <div class="elements-item">
-        <form action="http://localhost:8080/lab2-1.0-SNAPSHOT/control" method="get" id="form">
+        <form  method="get" id="form">
             <p>Выберите X:</p>
             <div id="x">
                 <label><input type="checkbox" name="x" value="-2">-2</label>
@@ -56,7 +56,7 @@
             <p>
                 R - величина R на графике (от 1 до 5)<br>
                 <select name="r" id="r" onchange="
-                        if(RInput.value >= 1 && RInput.value <= 3 ){
+                        if(RInput.value >= 1 && RInput.value <= 5 ){
                         let dots = document.getElementsByClassName('tmpDot');
                         while(dots[0]) {
                         dots[0].parentNode.removeChild(dots[0]);
