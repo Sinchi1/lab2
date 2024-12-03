@@ -30,7 +30,7 @@
 <div class="container">
     <!-- Форма ввода -->
     <div class="elements-item">
-        <form action="http://localhost:8080/lab2-1.0-SNAPSHOT/control" method="get" id="form">
+        <form  method="get" id="form">
             <p>Выберите X:</p>
             <div id="x">
                 <label><input type="checkbox" name="x" value="-2">-2</label>
