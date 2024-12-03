@@ -56,7 +56,7 @@
             <p>
                 R - величина R на графике (от 1 до 5)<br>
                 <select name="r" id="r" onchange="
-                        if(RInput.value >= 1 && RInput.value <= 3 ){
+                        if(RInput.value >= 1 && RInput.value <= 5 ){
                         let dots = document.getElementsByClassName('tmpDot');
                         while(dots[0]) {
                         dots[0].parentNode.removeChild(dots[0]);
