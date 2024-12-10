@@ -34,7 +34,7 @@ graph.addEventListener("mousemove", (event) =>{
     sircleBox.style.top = `${y}px`
 });
 
-document.getElementById('form').addEventListener('submit', function (event) {
+document.getElementById('form').addEventListener('submit', async function (event) {
     let isValid = true;
 
     const xError = document.getElementById('x_error');
@@ -54,7 +54,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
 
     // Проверка y
     const yInput = document.getElementById('y');
-    yInput.value = yInput.value.replace(",",".")
+    yInput.value = yInput.value.replace(",", ".")
     const yValue = parseFloat(yInput.value);
     if (isNaN(yValue) || yValue < -5 || yValue > 3) {
         yError.textContent = 'Введите значение Y';
@@ -62,7 +62,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
     }
 
     const rvalue = parseFloat(document.getElementById("r").value);
-    if (isNaN(rvalue)){
+    if (isNaN(rvalue)) {
         rError.textContent = 'Выберите значение R'
         isValid = false
     }
@@ -72,23 +72,24 @@ document.getElementById('form').addEventListener('submit', function (event) {
         return
     }
 
-    if (selectedX.length === 1){
-        const query = new URLSearchParams();
-        query.append("x", selectedX[0].value.toString())
-        query.append("y", yValue.toString())
-        query.append("r", rvalue.toString())
-
-        fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query.toString()}`, {
-            method: 'GET',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    console.log(":^(")
-                    event.preventDefault()
-                }
-            })
-    }
-    else {
+    // if (selectedX.length === 1) {
+    //     const query = new URLSearchParams();
+    //     query.append("x", selectedX[0].value.toString())
+    //     query.append("y", yValue.toString())
+    //     query.append("r", rvalue.toString())
+    //
+    //     await fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
+    //         method: 'GET',
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 console.log(":^(")
+    //                 event.preventDefault()
+    //             }
+    //             else{location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")}
+    //
+    //         })
+    // } else {
         event.preventDefault()
         const query = new URLSearchParams();
         query.delete("x")
@@ -97,22 +98,18 @@ document.getElementById('form').addEventListener('submit', function (event) {
         query.append("y", yValue.toString())
         query.append("r", rvalue.toString())
 
-            fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
-                method: 'GET',
+        await fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(":^(")
+                }
+                else{location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")}
             })
-                .then(response => {
-                    if (!response.ok) {
-                        console.log(":^(")
-                    }
-                    query.delete("x")
-                    query.delete("y")
-                    query.delete("r")
-                    console.log("query after fetch:" +
-                        "" + query.toString())
-                })
         // })
-    }
-    // location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")
+    // }
+
 });
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxesContainer = document.getElementById("x");
@@ -200,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) {
                     console.log(":^(")
                 }
-                // location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")
+                location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")
             })
 
 
