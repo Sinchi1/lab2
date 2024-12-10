@@ -30,7 +30,7 @@
 <div class="container">
     <!-- Форма ввода -->
     <div class="elements-item">
-        <form  method="get" id="form">
+        <form id="form">
             <p>Выберите X:</p>
             <div id="x">
                 <label><input type="checkbox" name="x" value="-2">-2</label>

@@ -6,8 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 @WebServlet(name = "AreaCheckServlet", value = "/Check")
 public class AreaCheckServlet extends HttpServlet {
@@ -15,18 +18,27 @@ public class AreaCheckServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         long time = 0;
-        double x = Double.parseDouble((String) req.getSession().getAttribute("x"));
+
+//        double[] x = new double[0];
+        String xValues = (String) req.getSession().getAttribute("x");
+        String[] valueStrings = xValues.split(",");
+        LinkedList<Double> x = new LinkedList<>();
+        for (String value : valueStrings) {
+            x.add(Double.parseDouble(value));
+        }
+
         double y = Double.parseDouble((String) req.getSession().getAttribute("y"));
         double r = Double.parseDouble((String) req.getSession().getAttribute("r"));
-
-        boolean isHit = (checkCircle(x,y,r) || checkTriangle(x,y,r) || checkSquare(x,y,r));
-        req.getSession().setAttribute("time",LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
-        req.getSession().setAttribute("result", String.valueOf(isHit));
-        try {
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
-        } catch (IOException e) {
-            e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Редирект результата не удался");
+        for (int i = 0; i < x.size(); ++i){
+            boolean isHit = (checkCircle(x.get(i),y,r) || checkTriangle(x.get(i),y,r) || checkSquare(x.get(i),y,r));
+            req.getSession().setAttribute("time",LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
+            req.getSession().setAttribute("result", String.valueOf(isHit));
+            try {
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            } catch (IOException e) {
+                e.printStackTrace();
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Редирект результата не удался");
+            }
         }
     }
 
