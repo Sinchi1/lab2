@@ -112,6 +112,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
                 })
         // })
     }
+    // location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")
 });
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxesContainer = document.getElementById("x");
@@ -199,12 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) {
                     console.log(":^(")
                 }
-                query.delete("x")
-                query.delete("y")
-                query.delete("r")
-                console.log("query after fetch:" +
-                    "" + query.toString())
+                // location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")
             })
+
 
     });
 });
