@@ -26,29 +26,6 @@
     }
 
         session.setAttribute("values", values);
-
-//    String result = (String) session.getAttribute("result");
-//    if (result != null) {
-//        values.add(result);
-//        values.add((String) session.getAttribute("x"));
-//        values.add((String) session.getAttribute("y"));
-//        values.add((String) session.getAttribute("r"));
-//        values.add((String) session.getAttribute("time"));
-//        session.setAttribute("result", null);
-//    }
-
-//    ArrayList<String> result = (ArrayList<String>) session.getAttribute("result");
-//    if (result != null) {
-//        values.add((String) result.get(0));
-//        values.add((String) result.get(1));
-//        values.add((String) result.get(2));
-//        values.add((String) result.get(3));
-//        values.add((String) result.get(4));
-//        session.setAttribute("result", null);
-//    }
-
-
-//    session.setAttribute("values", values);
 %>
 
 <header class="header">Трусковский Георгий 413818 Р3214 Вариант 311497</header>
@@ -109,6 +86,7 @@
             </p>
         </form>
     </div>
+
 
     <!-- График -->
     <div class="elements-item">

@@ -61,49 +61,4 @@ public class AreaCheckServlet extends HttpServlet {
         return (( 0<=x && x<=r) &&(0<=y && y<=r));
     }
 }
-//
-//package org.example;
-//
-//import jakarta.servlet.annotation.WebServlet;
-//import jakarta.servlet.http.HttpServlet;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//
-//import java.io.IOException;
-//import java.nio.charset.StandardCharsets;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
-//import java.util.Arrays;
-//import java.util.LinkedList;
-//
-//@WebServlet(name = "AreaCheckServlet", value = "/Check")
-//public class AreaCheckServlet extends HttpServlet {
-//
-//    @Override
-//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        // Получаем параметры x
-//        String xValues = (String) req.getSession().getAttribute("x");
-//        String[] valueStrings = xValues.split(",");
-//        LinkedList<Double> x = new LinkedList<>();
-//        for (String value : valueStrings) {
-//            x.add(Double.parseDouble(value.trim()));
-//        }
-//
-//        double y = Double.parseDouble((String) req.getSession().getAttribute("y"));
-//        double r = Double.parseDouble((String) req.getSession().getAttribute("r"));
-//
-//
-//        LinkedList<String> results = new LinkedList<>();
-//        for (int i = 0; i < x.size(); ++i) {
-//            boolean isHit = checkCircle(x.get(i), y, r) || checkTriangle(x.get(i), y, r) || checkSquare(x.get(i), y, r);
-//            String result = String.format("X: %.2f, Y: %.2f, R: %.2f -> Hit: %s", x.get(i), y, r, isHit);
-//            results.add(result);
-//        }
-//
-//
-//        req.getSession().setAttribute("result", results);
-//
-//
-//        resp.sendRedirect(req.getContextPath() + "/index.jsp");
-//    }
 

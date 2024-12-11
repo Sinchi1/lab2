@@ -51,19 +51,19 @@ document.getElementById('form').addEventListener('submit', async function (event
         xError.textContent = 'Выберите хотя бы одно значение X.';
         isValid = false;
     }else {
-        const rangeMin = -2;
-        const rangeMax = 2;
-
+        const xcheck = [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2];
 
         const outOfRange = selectedX.some(input => {
-            const value = parseFloat(input.value);
-            return (value <= rangeMin) || (value >= rangeMax);
+            const value = parseFloat(input.value); // Преобразуем значение в число
+            console.log(value);
+            console.log(xcheck);
+            console.log(!xcheck.includes(value)); // Проверяем наличие значения в массиве
+            return !xcheck.includes(value); // Если значения нет в массиве, возвращаем true
         });
 
         if (outOfRange) {
-            xError.textContent = `Значения X должны быть в диапазоне от ${rangeMin} до ${rangeMax}.`;
+            xError.textContent = 'Значения X должны лежать в пределах от -2 до 2';
             isValid = false;
-
         } else {
             xError.textContent = ''; // Очищаем сообщение об ошибке, если всё верно
         }
@@ -73,7 +73,11 @@ document.getElementById('form').addEventListener('submit', async function (event
     const yInput = document.getElementById('y');
     yInput.value = yInput.value.replace(",", ".")
     const yValue = parseFloat(yInput.value);
-    if (isNaN(yValue) || yValue < -5 || yValue > 3) {
+    if (isNaN(yValue)) {
+        yError.textContent = 'Введите значение Y';
+        isValid = false;
+    }
+    if (yValue < -5 || yValue > 3){
         yError.textContent = 'Введите значение Y';
         isValid = false;
     }
@@ -82,7 +86,6 @@ document.getElementById('form').addEventListener('submit', async function (event
     if (isNaN(rvalue)) {
         rError.textContent = 'Выберите значение R'
         isValid = false
-
     }
     if (!(rvalue >= 1 && rvalue <= 5)){
         rError.textContent = "Значение R лежит от 1 до 5"
@@ -95,24 +98,6 @@ document.getElementById('form').addEventListener('submit', async function (event
         return
     }
 
-    // if (selectedX.length === 1) {
-    //     const query = new URLSearchParams();
-    //     query.append("x", selectedX[0].value.toString())
-    //     query.append("y", yValue.toString())
-    //     query.append("r", rvalue.toString())
-    //
-    //     await fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
-    //         method: 'GET',
-    //     })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 console.log(":^(")
-    //                 event.preventDefault()
-    //             }
-    //             else{location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")}
-    //
-    //         })
-    // } else {
         event.preventDefault()
         const query = new URLSearchParams();
         query.delete("x")
@@ -177,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         yInput.value = normalizedY.toFixed(2);
 
-        const roundedX = normalizedX.toFixed(2); // Округленное значение X
+        const roundedX = normalizedX.toFixed(2);
         const xValueExists = xValues().includes(parseFloat(roundedX));
 
 
@@ -194,11 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
             newCheckbox.value = roundedX;
             newCheckbox.checked = true;
 
-            // Добавляем его в DOM (можно добавить скрытым)
+
             newCheckbox.style.display = "none";
             checkboxesContainer.appendChild(newCheckbox);
         } else {
-            // Если X уже существует, отмечаем его
             checkboxes().forEach(checkbox => {
                 checkbox.checked = parseFloat(checkbox.value) === parseFloat(roundedX);
             });
