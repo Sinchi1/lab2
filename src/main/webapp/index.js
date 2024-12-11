@@ -4,23 +4,6 @@ const RInput = document.getElementById('r')
 const xButtons = document.getElementsByClassName("x_button");
 const sircleBox = document.getElementById("cursorCircle")
 const graph = document.getElementById("graph");
-const checkboxX = document.querySelectorAll('input[name="x"]');
-const send = document.getElementById("confirm");
-
-checkboxX.forEach((checkbox) => {
-    checkbox.addEventListener('click', function (){
-        if (checkbox.checked){
-            checkboxX.forEach((cb) => {
-                if (cb !== checkbox) {
-                    cb.checked = false;
-                }
-            })
-        } else {
-            checkbox.checked = false;
-        }
-    })
-})
-
 // lab2-1.0-SNAPSHOT/control
 
 for(let i = 0; i < xButtons.length; i++){
@@ -34,12 +17,12 @@ for(let i = 0; i < xButtons.length; i++){
 }
 
 graph.addEventListener("mouseenter", () => {
-    console.log("залетел")
+
     sircleBox.style.display = 'block';
 });
 
 graph.addEventListener("mouseleave", () =>{
-    console.log("вылетел")
+
     sircleBox.style.display = 'none';
 });
 
@@ -51,7 +34,7 @@ graph.addEventListener("mousemove", (event) =>{
     sircleBox.style.top = `${y}px`
 });
 
-document.getElementById('form').addEventListener('submit', function (event) {
+document.getElementById('form').addEventListener('submit', async function (event) {
     let isValid = true;
 
     const xError = document.getElementById('x_error');
@@ -67,10 +50,28 @@ document.getElementById('form').addEventListener('submit', function (event) {
     if (selectedX.length === 0) {
         xError.textContent = 'Выберите хотя бы одно значение X.';
         isValid = false;
+    }else {
+        const rangeMin = -2;
+        const rangeMax = 2;
+
+
+        const outOfRange = selectedX.some(input => {
+            const value = parseFloat(input.value);
+            return (value <= rangeMin) || (value >= rangeMax);
+        });
+
+        if (outOfRange) {
+            xError.textContent = `Значения X должны быть в диапазоне от ${rangeMin} до ${rangeMax}.`;
+            isValid = false;
+
+        } else {
+            xError.textContent = ''; // Очищаем сообщение об ошибке, если всё верно
+        }
     }
 
     // Проверка y
     const yInput = document.getElementById('y');
+    yInput.value = yInput.value.replace(",", ".")
     const yValue = parseFloat(yInput.value);
     if (isNaN(yValue) || yValue < -5 || yValue > 3) {
         yError.textContent = 'Введите значение Y';
@@ -78,9 +79,15 @@ document.getElementById('form').addEventListener('submit', function (event) {
     }
 
     const rvalue = parseFloat(document.getElementById("r").value);
-    if (isNaN(rvalue)){
+    if (isNaN(rvalue)) {
         rError.textContent = 'Выберите значение R'
         isValid = false
+
+    }
+    if (!(rvalue >= 1 && rvalue <= 5)){
+        rError.textContent = "Значение R лежит от 1 до 5"
+        isValid = false
+
     }
 
     if (!isValid) {
@@ -88,49 +95,46 @@ document.getElementById('form').addEventListener('submit', function (event) {
         return
     }
 
-    if (selectedX.length === 1){
+    // if (selectedX.length === 1) {
+    //     const query = new URLSearchParams();
+    //     query.append("x", selectedX[0].value.toString())
+    //     query.append("y", yValue.toString())
+    //     query.append("r", rvalue.toString())
+    //
+    //     await fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
+    //         method: 'GET',
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 console.log(":^(")
+    //                 event.preventDefault()
+    //             }
+    //             else{location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")}
+    //
+    //         })
+    // } else {
+        event.preventDefault()
         const query = new URLSearchParams();
-        query.append("x", selectedX[0].value.toString())
-        query.append("y", yValue.toString())
+        query.delete("x")
+        query.delete("y")
+        query.delete("r")
+        const x = Array.from(selectedX).map(checkbox => checkbox.value)
+        query.append("x", x.toString())
+        query.append("y", yInput.value.toString())
+        console.log(yInput.value.toString())
         query.append("r", rvalue.toString())
 
-        console.log("x:" + selectedX[0].value + "y:" + yValue + "r:" + rvalue )
-
-        fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query.toString()}`, {
+        await fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
             method: 'GET',
         })
             .then(response => {
                 if (!response.ok) {
                     console.log(":^(")
-                    event.preventDefault()
                 }
+                else{location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")}
             })
-
-    }
-    else {
-        const query = new URLSearchParams();
-        query.append("y", yValue.toString())
-        query.append("r", rvalue.toString())
-        for (let i = 0; i < selectedX.length; i++){
-            query.append("x", selectedX[i].toString())
-            fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query.toString()}`, {
-                method: 'GET',
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        console.log(":^(")
-                        query.delete("x")
-                        query.delete("y")
-                        query.delete("r")
-                    }
-                    else {
-                        query.delete("x")
-                        query.delete("y")
-                        query.delete("r")
-                    }
-                })
-        }
-    }
+        // })
+    // }
 
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -143,9 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // При клике на график
     graph.addEventListener("click", event => {
+
         const rect = graph.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
+
+        console.log("clicks: " +clickX + " " +  clickY)
 
         const rError = document.getElementById("r_error")
 
@@ -153,18 +160,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const rValue = parseFloat(rSelect.value);
 
-        if (!isNaN(rValue)) {
+        console.log("rvalue " + rValue)
+
+        if (isNaN(rValue)) {
             rError.textContent = "Укажите значение R"
             event.preventDefault()
+            return
         }
 
         // (центр графика - 150,150, масштаб - 300x300)
+
         const normalizedX = ((clickX - 150) / 120) * rValue;
         const normalizedY = ((150 - clickY) / 120) * rValue;
 
+        console.log("normalized x and y: " + normalizedX + " " + normalizedY)
 
         yInput.value = normalizedY.toFixed(2);
-
 
         const roundedX = normalizedX.toFixed(2); // Округленное значение X
         const xValueExists = xValues().includes(parseFloat(roundedX));
@@ -193,27 +204,29 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        send.click();
+
+        const query = new URLSearchParams();
+
+        query.delete("x")
+        query.delete("y")
+        query.delete("r")
+
+        query.append("x", normalizedX.toFixed(4).toString())
+        query.append("y",  yInput.value.toString())
+        query.append("r", rValue.toString())
+
+        fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
+            method: 'GET',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(":^(")
+                }
+                location.replace("http://localhost:8080/lab2-1.0-SNAPSHOT/control")
+            })
+
+
     });
-});
-
-
-graph.addEventListener('click', ({clientX, clientY}) => {
-    let point = graph.createSVGPoint();
-    point.x = clientX;
-    point.y = clientY;
-    point = point.matrixTransform(graph.getScreenCTM().inverse());
-    const rValue = parseFloat(RInput.value); // Получаем значение R
-
-    // Рассчёт X и Y относительно клика
-    const normalizedX = ((point.x - 150) / 120) * rValue; // X с учётом R
-    const normalizedY = ((150 - point.y) / 120) * rValue; // Y с учётом R
-
-    // Устанавливаем значения в поля ввода
-    XInput.value = normalizedX.toFixed(2);
-    yInput.value = normalizedY.toFixed(2);
-
-
 });
 
 

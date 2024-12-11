@@ -1,4 +1,5 @@
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.LinkedList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,25 +13,50 @@
         values = new ArrayList<>();
     }
 
-    String result = (String) session.getAttribute("result");
-    if (result != null) {
-        values.add(result);
-        values.add((String) session.getAttribute("x"));
-        values.add((String) session.getAttribute("y"));
-        values.add((String) session.getAttribute("r"));
-        values.add((String) session.getAttribute("time"));
-        session.setAttribute("result", null);
+    LinkedList<Object[]> results = (LinkedList<Object[]>) session.getAttribute("results");
+    if (results != null) {
+        for (Object[] result : results) {
+            values.add((String) result[0]);
+            values.add((String) result[1]);
+            values.add((String) result[2]);
+            values.add((String) result[3]);
+            values.add((String) result[4]);
+            session.setAttribute("results", null);
+        }
     }
 
-    session.setAttribute("values", values);
+        session.setAttribute("values", values);
+
+//    String result = (String) session.getAttribute("result");
+//    if (result != null) {
+//        values.add(result);
+//        values.add((String) session.getAttribute("x"));
+//        values.add((String) session.getAttribute("y"));
+//        values.add((String) session.getAttribute("r"));
+//        values.add((String) session.getAttribute("time"));
+//        session.setAttribute("result", null);
+//    }
+
+//    ArrayList<String> result = (ArrayList<String>) session.getAttribute("result");
+//    if (result != null) {
+//        values.add((String) result.get(0));
+//        values.add((String) result.get(1));
+//        values.add((String) result.get(2));
+//        values.add((String) result.get(3));
+//        values.add((String) result.get(4));
+//        session.setAttribute("result", null);
+//    }
+
+
+//    session.setAttribute("values", values);
 %>
 
-<header class="header">Трусковский Георгий 413818 Р3214</header>
+<header class="header">Трусковский Георгий 413818 Р3214 Вариант 311497</header>
 
 <div class="container">
     <!-- Форма ввода -->
     <div class="elements-item">
-        <form  method="get" id="form">
+        <form id="form">
             <p>Выберите X:</p>
             <div id="x">
                 <label><input type="checkbox" name="x" value="-2">-2</label>

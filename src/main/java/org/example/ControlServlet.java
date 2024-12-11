@@ -9,6 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Objects;
 
 @WebServlet(name = "ControlServlet", value = "/control")
@@ -20,6 +24,7 @@ public class ControlServlet extends HttpServlet {
             if (req.getParameter("x") == null || req.getParameter("y") == null || req.getParameter("r") == null){
                 resp.sendRedirect(req.getContextPath() + "/index.jsp");
             }
+
             req.getSession().setAttribute("x", req.getParameter("x"));
             req.getSession().setAttribute("y", req.getParameter("y"));
             req.getSession().setAttribute("r", req.getParameter("r"));
@@ -35,7 +40,6 @@ public class ControlServlet extends HttpServlet {
 
         } else if (!req.getMethod().equalsIgnoreCase("GET")) {
             req.getSession().setAttribute("errorMessage", "Сервер принимает только GET запросы");
-            resp.sendRedirect(req.getContextPath() + "/error.jsp");
         }
 
 
