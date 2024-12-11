@@ -51,7 +51,7 @@
 //    session.setAttribute("values", values);
 %>
 
-<header class="header">Трусковский Георгий 413818 Р3214</header>
+<header class="header">Трусковский Георгий 413818 Р3214 Вариант 311497</header>
 
 <div class="container">
     <!-- Форма ввода -->

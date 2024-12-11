@@ -50,6 +50,23 @@ document.getElementById('form').addEventListener('submit', async function (event
     if (selectedX.length === 0) {
         xError.textContent = 'Выберите хотя бы одно значение X.';
         isValid = false;
+    }else {
+        const rangeMin = -2;
+        const rangeMax = 2;
+
+
+        const outOfRange = selectedX.some(input => {
+            const value = parseFloat(input.value);
+            return (value <= rangeMin) || (value >= rangeMax);
+        });
+
+        if (outOfRange) {
+            xError.textContent = `Значения X должны быть в диапазоне от ${rangeMin} до ${rangeMax}.`;
+            isValid = false;
+
+        } else {
+            xError.textContent = ''; // Очищаем сообщение об ошибке, если всё верно
+        }
     }
 
     // Проверка y
@@ -65,6 +82,12 @@ document.getElementById('form').addEventListener('submit', async function (event
     if (isNaN(rvalue)) {
         rError.textContent = 'Выберите значение R'
         isValid = false
+
+    }
+    if (!(rvalue >= 1 && rvalue <= 5)){
+        rError.textContent = "Значение R лежит от 1 до 5"
+        isValid = false
+
     }
 
     if (!isValid) {
@@ -93,9 +116,12 @@ document.getElementById('form').addEventListener('submit', async function (event
         event.preventDefault()
         const query = new URLSearchParams();
         query.delete("x")
+        query.delete("y")
+        query.delete("r")
         const x = Array.from(selectedX).map(checkbox => checkbox.value)
         query.append("x", x.toString())
-        query.append("y", yValue.toString())
+        query.append("y", yInput.value.toString())
+        console.log(yInput.value.toString())
         query.append("r", rvalue.toString())
 
         await fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {
@@ -143,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // (центр графика - 150,150, масштаб - 300x300)
-        console.log("NORM X SHOULD BE" + ((clickX - 150) / 120) * rValue)
 
         const normalizedX = ((clickX - 150) / 120) * rValue;
         const normalizedY = ((150 - clickY) / 120) * rValue;
@@ -187,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         query.delete("r")
 
         query.append("x", normalizedX.toFixed(4).toString())
-        query.append("y",  normalizedY.toFixed(4).toString())
+        query.append("y",  yInput.value.toString())
         query.append("r", rValue.toString())
 
         fetch(`http://localhost:8080/lab2-1.0-SNAPSHOT/control?${query}`, {

@@ -22,7 +22,7 @@
 
 .elements-item {
     width: 100vh;
-    height: 50vh;
+    height: 80vh;
     padding: 15px;
     border: 1px solid #ccc;
     font-size: 20px;
@@ -36,8 +36,8 @@
 
 .cursorBox {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background-color: pink;
     border-radius: 50%;
     pointer-events: none;

@@ -33,7 +33,7 @@ public class AreaCheckServlet extends HttpServlet {
         LinkedList<Object[]> results = new LinkedList<>();
         for (Double xi : x) {
             Boolean isHit = checkCircle(xi, y, r) || checkTriangle(xi, y, r) || checkSquare(xi, y, r);
-            results.add(new Object[]{isHit.toString(),xi.toString(), y.toString(), r.toString(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"))});
+            results.add(new Object[]{isHit.toString(),xi.toString(), req.getSession().getAttribute("y"), r.toString(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"))});
         }
 
         // Сохраняем результаты в сессии
